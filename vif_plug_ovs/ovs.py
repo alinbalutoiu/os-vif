@@ -83,6 +83,9 @@ class OvsPlugin(plugin.PluginBase):
             ])
 
     def _get_mtu(self, vif):
+        if sys.platform == 'win32':
+            # Setting MTU is not supported on Windows
+            return None
         if vif.network and vif.network.mtu:
             return vif.network.mtu
         return self.config.network_device_mtu
